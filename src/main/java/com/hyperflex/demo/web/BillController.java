@@ -2,7 +2,9 @@ package com.hyperflex.demo.web;
 
 import com.alibaba.da.coin.ide.spi.standard.ResultModel;
 import com.alibaba.da.coin.ide.spi.standard.TaskResult;
+import com.alibaba.da.coin.ide.spi.trans.GsonUtils;
 import com.alibaba.da.coin.ide.spi.trans.MetaFormat;
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.hyperflex.demo.service.bill.BillStepRemHandler;
 import com.hyperflex.demo.service.bill.FoodAdviceHandler;
 import com.hyperflex.demo.service.bill.MenuHandler;
@@ -60,6 +62,8 @@ public class BillController {
             resultModel.setReturnCode("-1");
             resultModel.setReturnErrorSolution(e.getMessage());
         }
+        logger.info("resultModel:{}", resultModel.getReturnCode() + "," + resultModel.getReturnErrorSolution() + "," +
+                resultModel.getReturnMessage() + "," + resultModel.getReturnValue().toString());
         return resultModel;
     }
 
@@ -71,7 +75,7 @@ public class BillController {
     @RequestMapping(value = "/recommend_bill", method = {RequestMethod.POST, RequestMethod.GET})
     public @ResponseBody ResultModel<TaskResult> RecommendBillResponse(@RequestBody String taskQuery) {
         ResultModel<TaskResult> resultModel = new ResultModel<>();
-        logger.info("TaskQuery:{}", taskQuery.toString());
+        logger.info("TaskQuery:{}", taskQuery);
         try {
             resultModel.setReturnCode("0");
             resultModel.setReturnValue(foodAdviceHandler.execute(MetaFormat.parseToQuery(taskQuery)));
@@ -80,6 +84,8 @@ public class BillController {
             resultModel.setReturnCode("-1");
             resultModel.setReturnErrorSolution(e.getMessage());
         }
+        logger.info("resultModel:{}", resultModel.getReturnCode() + "," + resultModel.getReturnErrorSolution() + "," +
+                resultModel.getReturnMessage() + "," + resultModel.getReturnValue().toString());
         return resultModel;
     }
 
@@ -100,6 +106,8 @@ public class BillController {
             resultModel.setReturnCode("-1");
             resultModel.setReturnErrorSolution(e.getMessage());
         }
+        logger.info("resultModel:{}", resultModel.getReturnCode() + "," + resultModel.getReturnErrorSolution() + "," +
+                resultModel.getReturnMessage() + "," + resultModel.getReturnValue().toString());
         return resultModel;
     }
 
@@ -115,6 +123,8 @@ public class BillController {
             resultModel.setReturnCode("-1");
             resultModel.setReturnErrorSolution(e.getMessage());
         }
+        logger.info("resultModel:{}", resultModel.getReturnCode() + "," + resultModel.getReturnErrorSolution() + "," +
+                resultModel.getReturnMessage() + "," + resultModel.getReturnValue().toString());
         return resultModel;
     }
 
