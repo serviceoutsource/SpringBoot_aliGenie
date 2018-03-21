@@ -1,7 +1,5 @@
 package com.hyperflex.demo.service.bill.impl;
 
-import com.alibaba.da.coin.ide.spi.meta.ExecuteCode;
-import com.alibaba.da.coin.ide.spi.meta.ResultType;
 import com.alibaba.da.coin.ide.spi.meta.SlotEntity;
 import com.alibaba.da.coin.ide.spi.standard.TaskQuery;
 import com.alibaba.da.coin.ide.spi.standard.TaskResult;
@@ -40,7 +38,7 @@ public class BillStepRemHandlerImpl implements BillStepRemHandler {
     @Override
     public TaskResult execute(TaskQuery taskQuery) {
         List<SlotEntity> tmp = taskQuery.getSlotEntities();
-        return ExcuteAdaper.execute(taskQuery, getSteps(tmp.get(0).getSlotValue(), tmp.get(1).getSlotValue()));
+        return ExcuteAdaper.execute(taskQuery, getSteps(tmp.get(0).getSlotValue(), tmp.get(0).getSlotValue()));
     }
 
     /**
