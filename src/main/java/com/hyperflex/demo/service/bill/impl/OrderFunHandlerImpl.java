@@ -26,11 +26,12 @@ public class OrderFunHandlerImpl implements OrderFunHandler {
     }
 
     public String testAnswer(TaskQuery taskQuery) {
-        if (taskQuery.getSlotEntities().get(0).getSlotValue().equalsIgnoreCase(OrderFunEnum.ORDER_TYPE_2)) {
-            return "那我就开始报菜谱咯   ：食材有：清水、虾仁、食盐、生粉、橄榄油、鱼露、荔枝";
+        if (taskQuery.getSlotEntities().get(0).getSlotValue().equalsIgnoreCase(OrderFunEnum.ORDER_TYPE_2) ||
+                taskQuery.getSlotEntities().get(1).getSlotValue().equalsIgnoreCase(OrderFunEnum.ORDER_TYPE_2)) {
+            return "那我就开始报菜谱咯:食材有：清水、虾仁、食盐、生粉、橄榄油、鱼露、荔枝";
         }
         else {
-            return "好的，这就为您下单";
+            return "好的，这就为您下单，预计在半小时后到达";
         }
     }
 }
