@@ -2,9 +2,7 @@ package com.hyperflex.demo.web;
 
 import com.alibaba.da.coin.ide.spi.standard.ResultModel;
 import com.alibaba.da.coin.ide.spi.standard.TaskResult;
-import com.alibaba.da.coin.ide.spi.trans.GsonUtils;
 import com.alibaba.da.coin.ide.spi.trans.MetaFormat;
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.hyperflex.demo.service.bill.BillStepRemHandler;
 import com.hyperflex.demo.service.bill.FoodAdviceHandler;
 import com.hyperflex.demo.service.bill.MenuHandler;
@@ -111,6 +109,11 @@ public class BillController {
         return resultModel;
     }
 
+    /**
+     *
+     * @param taskQuery
+     * @return
+     */
     @RequestMapping(value = "/order_fun", method = {RequestMethod.POST, RequestMethod.GET})
     public @ResponseBody ResultModel<TaskResult> OrderFunResponse(@RequestBody String taskQuery) {
         ResultModel<TaskResult> resultModel = new ResultModel<>();

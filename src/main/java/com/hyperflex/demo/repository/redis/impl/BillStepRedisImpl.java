@@ -23,7 +23,7 @@ public class BillStepRedisImpl implements BillStepRedis {
         ValueOperations<String, BillSteps> operations = redisTemplate.opsForValue();
         BillSteps billSteps = operations.get(oldAccessToken);
         if (billSteps == null) {
-            return new BillSteps(oldAccessToken, "");
+            return new BillSteps(oldAccessToken, "test");
         }
         billSteps.setOldAccessToken(oldAccessToken);
         return billSteps;
