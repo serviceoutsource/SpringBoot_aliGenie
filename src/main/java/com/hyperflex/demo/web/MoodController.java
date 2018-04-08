@@ -4,8 +4,10 @@ import com.alibaba.da.coin.ide.spi.standard.ResultModel;
 import com.alibaba.da.coin.ide.spi.standard.TaskQuery;
 import com.alibaba.da.coin.ide.spi.standard.TaskResult;
 import com.alibaba.da.coin.ide.spi.trans.MetaFormat;
+import com.hyperflex.demo.service.mood.MoodLightHandler;
 import com.hyperflex.demo.service.mood.MoodMusicHandler;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,8 +21,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping(value = "/aliGenie")
 public class MoodController {
 
+    @Qualifier("MoodMusicHandler")
     @Autowired
     private MoodMusicHandler moodMusicHandler;
+
+    @Qualifier("MoodLightHandler")
+    @Autowired
+    private MoodLightHandler moodLightHandler;
 
     /**
      *

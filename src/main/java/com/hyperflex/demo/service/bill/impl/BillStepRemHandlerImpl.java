@@ -40,7 +40,7 @@ public class BillStepRemHandlerImpl implements BillStepRemHandler {
     @Override
     public TaskResult execute(TaskQuery taskQuery) {
         List<SlotEntity> slotEntities = taskQuery.getSlotEntities();
-        return ExcuteAdaper.execute(taskQuery, getSteps(slotEntities.get(0).getOriginalValue(), slotEntities.get(0).getOriginalValue()));
+        return ExcuteAdaper.execute(taskQuery, getSteps(null, slotEntities.get(0).getOriginalValue()));
     }
 
     /**
@@ -80,7 +80,15 @@ public class BillStepRemHandlerImpl implements BillStepRemHandler {
 
     protected String getSteps(String foodName, String slotValue) {
         System.out.println(foodName + ", " + slotValue);
-        return testAnswer(foodName, 1);
+        try {
+            if (slotValue != null) {
+                return testAnswer(foodName, Integer.parseInt(slotValue));
+            }
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            return testAnswer(foodName, -1);
+        }
+        return testAnswer(foodName, -1);
     }
 
     /**
@@ -106,8 +114,13 @@ public class BillStepRemHandlerImpl implements BillStepRemHandler {
                 "放入虾仁。",
                 "煸炒至虾仁变色，放入荔枝。",
                 "倒入芡汁，煸炒收汁，即可关火上碟。"}));
-        String a =  steps.get("荔枝烩虾仁").get(STEPS);
-        STEPS += 1;
+        String a = "";
+        if (soltValue == -1) {
+            a = steps.get("荔枝烩虾仁").get(STEPS);
+            STEPS += 1;
+        } else {
+            a = steps.get("荔枝烩虾仁").get(soltValue - 1);
+        }
         return a;
     }
 }

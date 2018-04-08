@@ -7,6 +7,7 @@ import com.alibaba.da.coin.ide.spi.standard.TaskQuery;
 import com.alibaba.da.coin.ide.spi.standard.TaskResult;
 import com.hyperflex.demo.service.mood.MoodMusicHandler;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -15,7 +16,8 @@ import java.util.stream.Collectors;
  * @author chuntaojun
  */
 @Component
-public class MoodMusicMusicHandlerImpl implements MoodMusicHandler {
+@Service("MoodMusicHandler")
+public class MoodMusicHandlerImpl implements MoodMusicHandler {
 
     @Override
     public TaskResult execute(TaskQuery taskQuery) {

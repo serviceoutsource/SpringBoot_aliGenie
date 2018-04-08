@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
  * @author chuntaojun
  */
 @Component
-@Service("MoodAnalyze")
+@Service("MoodLightHandler")
 public class MoodLightHandlerImpl implements MoodLightHandler {
 
 

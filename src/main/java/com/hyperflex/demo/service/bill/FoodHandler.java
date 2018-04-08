@@ -10,5 +10,10 @@ import com.alibaba.da.coin.ide.spi.standard.TaskResult;
  */
 public interface FoodHandler {
 
+    /**
+     *
+     * @param taskQuery
+     * @return
+     */
     TaskResult execute(TaskQuery taskQuery);
 }
