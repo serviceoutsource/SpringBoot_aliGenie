@@ -5,7 +5,7 @@ import com.alibaba.da.coin.ide.spi.meta.ResultType;
 import com.alibaba.da.coin.ide.spi.meta.SlotEntity;
 import com.alibaba.da.coin.ide.spi.standard.TaskQuery;
 import com.alibaba.da.coin.ide.spi.standard.TaskResult;
-import com.hyperflex.demo.service.mood.Handler;
+import com.hyperflex.demo.service.mood.MoodMusicHandler;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
  * @author chuntaojun
  */
 @Component
-public class HandlerImpl implements Handler {
+public class MoodMusicMusicHandlerImpl implements MoodMusicHandler {
 
     @Override
     public TaskResult execute(TaskQuery taskQuery) {
@@ -26,7 +26,7 @@ public class HandlerImpl implements Handler {
                 .stream()
                 .collect(Collectors
                         .toMap(SlotEntity::getIntentParameterName, SlotEntity::getStandardValue));
-        result.setReply("我，还，不，能，回，答，去，找，你，妈，妈，安，慰");
+        result.setReply("好的 为您播放舒伯特小夜曲");
         result.setExecuteCode(ExecuteCode.SUCCESS);
         result.setResultType(ResultType.RESULT);
         return result;

@@ -1,4 +1,4 @@
 package com.hyperflex.demo.service.mood;
 
-public interface Analyze {
+public interface MoodLightHandler {
 }

@@ -25,6 +25,8 @@ import java.util.List;
 @Service("BillStepRemember")
 public class BillStepRemHandlerImpl implements BillStepRemHandler {
 
+    private static Integer STEPS = 0;
+
     private static final String ACCESSTOKEN = "";
 
     @Qualifier(value = "BillStepRedis")
@@ -97,13 +99,15 @@ public class BillStepRemHandlerImpl implements BillStepRemHandler {
                 "蛋白分三次加入50g的糖粉，用电动打蛋器打发至干性发泡。",
                 "蛋黄加入40g糖粉搅拌均匀，一定要把糖完全融化掉。"}));
         steps.put("荔枝烩虾仁", Arrays.asList(new String[]{
-                "预备芡汁 适量的调味鸡汁 鱼露 生粉和清水拌匀",
+                "预备芡汁适量的调味鸡汁鱼露生粉和清水拌匀",
                 "虾仁洗净，放入少许食盐腌制一会。",
                 "将荔枝洗净，去壳。",
                 "热油锅。",
                 "放入虾仁。",
                 "煸炒至虾仁变色，放入荔枝。",
                 "倒入芡汁，煸炒收汁，即可关火上碟。"}));
-        return steps.get("荔枝烩虾仁").get(soltValue - 1);
+        String a =  steps.get("荔枝烩虾仁").get(STEPS);
+        STEPS += 1;
+        return a;
     }
 }

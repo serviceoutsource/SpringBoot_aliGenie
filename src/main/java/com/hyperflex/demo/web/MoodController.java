@@ -4,7 +4,7 @@ import com.alibaba.da.coin.ide.spi.standard.ResultModel;
 import com.alibaba.da.coin.ide.spi.standard.TaskQuery;
 import com.alibaba.da.coin.ide.spi.standard.TaskResult;
 import com.alibaba.da.coin.ide.spi.trans.MetaFormat;
-import com.hyperflex.demo.service.mood.Handler;
+import com.hyperflex.demo.service.mood.MoodMusicHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class MoodController {
 
     @Autowired
-    private Handler handler;
+    private MoodMusicHandler moodMusicHandler;
 
     /**
      *
@@ -32,7 +32,7 @@ public class MoodController {
         TaskQuery query = MetaFormat.parseToQuery(taskQuery);
         ResultModel<TaskResult> resultModel = new ResultModel<>();
         try {
-            TaskResult result = handler.execute(query);
+            TaskResult result = moodMusicHandler.execute(query);
             resultModel.setReturnCode("0");
             resultModel.setReturnValue(result);
             System.out.println(result.toString());

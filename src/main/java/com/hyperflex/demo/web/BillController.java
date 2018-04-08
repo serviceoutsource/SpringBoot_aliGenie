@@ -3,10 +3,7 @@ package com.hyperflex.demo.web;
 import com.alibaba.da.coin.ide.spi.standard.ResultModel;
 import com.alibaba.da.coin.ide.spi.standard.TaskResult;
 import com.alibaba.da.coin.ide.spi.trans.MetaFormat;
-import com.hyperflex.demo.service.bill.BillStepRemHandler;
-import com.hyperflex.demo.service.bill.FoodAdviceHandler;
-import com.hyperflex.demo.service.bill.MenuHandler;
-import com.hyperflex.demo.service.bill.OrderFunHandler;
+import com.hyperflex.demo.service.bill.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,9 +28,9 @@ public class BillController {
     @Autowired
     private MenuHandler menuHandler;
 
-    @Qualifier("FoodAdviceHandler")
+    @Qualifier("FoodRecommendHandler")
     @Autowired
-    private FoodAdviceHandler foodAdviceHandler;
+    private FoodRecommendHandler foodRecommendHandler;
 
     @Qualifier("BillStepRemember")
     @Autowired
@@ -42,6 +39,10 @@ public class BillController {
     @Qualifier("OrderFun")
     @Autowired
     private OrderFunHandler orderFunHandler;
+
+    @Qualifier("FoodAdviceHandler")
+    @Autowired
+    private FoodAdviceHandler foodAdviceHandler;
 
     /**
      *
@@ -76,7 +77,7 @@ public class BillController {
         logger.info("TaskQuery:{}", taskQuery);
         try {
             resultModel.setReturnCode("0");
-            resultModel.setReturnValue(foodAdviceHandler.execute(MetaFormat.parseToQuery(taskQuery)));
+            resultModel.setReturnValue(foodRecommendHandler.execute(MetaFormat.parseToQuery(taskQuery)));
         } catch (Exception e) {
             System.out.println(e.getMessage());
             resultModel.setReturnCode("-1");

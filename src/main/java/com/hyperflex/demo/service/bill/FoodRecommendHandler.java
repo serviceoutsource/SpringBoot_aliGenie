@@ -1,18 +1,13 @@
-package com.hyperflex.demo.service.mood;
+package com.hyperflex.demo.service.bill;
 
 import com.alibaba.da.coin.ide.spi.standard.TaskQuery;
 import com.alibaba.da.coin.ide.spi.standard.TaskResult;
 
 /**
- * @author chuntaojun
+ *
+ * @author Gavin
+ * @date 2018/3/1
  */
-public interface Handler {
-
-    /**
-     *
-     * @param taskQuery
-     * @return
-     */
+public interface FoodRecommendHandler {
     TaskResult execute(TaskQuery taskQuery);
-
 }
