@@ -81,4 +81,28 @@ public class MoodController {
         return resultModel;
     }
 
+    @RequestMapping(value = "/mood_light", method = RequestMethod.POST)
+    public @ResponseBody String tset(@RequestBody String taskQuery) {
+        logger.info("TaskQuery:{}", taskQuery);
+        return "｛\n" +
+                "  \"header\":{\n" +
+                "      \"namespace\":\"AliGenie.Iot.Device.Control\",\n" +
+                "      \"name\":\"AdjustDownBrightness\",\n" +
+                "      \"messageId\":\"1qe5d103-61b5-476f-ad04-85d471936840\",\n" +
+                "      \"payLoadVersion\":1\n" +
+                "   },\n" +
+                "   \"payload\":{\n" +
+                "       \"accessToken\":\"2YotnFZFEjr1zCsicMWpAA\",\n" +
+                "       \"deviceId\":\"54234\",\n" +
+                "       \"deviceType\":\"light\",\n" +
+                "       \"attribute\":\"brightnessStep\",   \n" +
+                "       \"value\":\"10\" ,\n" +
+                "       \"extensions\":{\n" +
+                "          \"extension1\":\"\",\n" +
+                "          \"extension2\":\"\"\n" +
+                "      }            \n" +
+                "    }\n" +
+                "  ｝";
+    }
+
 }
