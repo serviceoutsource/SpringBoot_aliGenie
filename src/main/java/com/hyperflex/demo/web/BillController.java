@@ -4,6 +4,7 @@ import com.alibaba.da.coin.ide.spi.standard.ResultModel;
 import com.alibaba.da.coin.ide.spi.standard.TaskResult;
 import com.alibaba.da.coin.ide.spi.trans.MetaFormat;
 import com.hyperflex.demo.service.bill.*;
+import com.hyperflex.demo.service.unitls.ExcuteAdaper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -139,6 +140,23 @@ public class BillController {
         try {
             resultModel.setReturnCode("0");
             resultModel.setReturnValue(foodAdviceHandler.execute(MetaFormat.parseToQuery(taskQuery)));
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            resultModel.setReturnCode("-1");
+            resultModel.setReturnErrorSolution(e.getMessage());
+        }
+        logger.info("resultModel:{}", resultModel.getReturnCode() + "," + resultModel.getReturnErrorSolution() + "," +
+                resultModel.getReturnMessage() + "," + resultModel.getReturnValue().toString());
+        return resultModel;
+    }
+
+    @RequestMapping(value = "/food_metrial_recommend", method = {RequestMethod.POST, RequestMethod.GET})
+    public @ResponseBody ResultModel<TaskResult> FoodMaterialResponse(@RequestBody String taskQuery) {
+        ResultModel<TaskResult> resultModel = new ResultModel<>();
+        logger.info("TaskQuery:{}", taskQuery);
+        try {
+            resultModel.setReturnCode("0");
+            resultModel.setReturnValue(ExcuteAdaper.execute(MetaFormat.parseToQuery(taskQuery), "小依推荐您尝试下 小鸡炖蘑菇 白切鸡 或者 黄焖鸡"));
         } catch (Exception e) {
             System.out.println(e.getMessage());
             resultModel.setReturnCode("-1");
