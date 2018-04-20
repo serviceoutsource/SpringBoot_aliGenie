@@ -5,7 +5,7 @@ import com.alibaba.da.coin.ide.spi.standard.TaskQuery;
 import com.alibaba.da.coin.ide.spi.standard.TaskResult;
 import com.hyperflex.demo.model.BillSteps;
 import com.hyperflex.demo.repository.mongo.FoodBookMongo;
-import com.hyperflex.demo.repository.redis.BillStepRedis;
+import com.hyperflex.demo.repository.redis.BillRedis;
 import com.hyperflex.demo.service.bill.BillStepRemHandler;
 import com.hyperflex.demo.service.unitls.ExcuteAdaper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpSession;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -29,18 +30,22 @@ public class BillStepRemHandlerImpl implements BillStepRemHandler {
 
     private static final String ACCESSTOKEN = "";
 
-    @Qualifier(value = "BillStepRedis")
+    @Qualifier(value = "BillRedis")
     @Autowired
-    private BillStepRedis billStepRedis;
+    private BillRedis billRedis;
 
     @Qualifier("FoodBookMongo")
     @Autowired
     private FoodBookMongo foodBookMongo;
 
     @Override
-    public TaskResult execute(TaskQuery taskQuery) {
+    public TaskResult execute(TaskQuery taskQuery, HttpSession session) {
         List<SlotEntity> slotEntities = taskQuery.getSlotEntities();
-        return ExcuteAdaper.execute(taskQuery, getSteps(null, slotEntities.get(0).getOriginalValue()));
+        if (slotEntities.size() == 2) {
+            return ExcuteAdaper.execute(taskQuery, getSteps(slotEntities.get(0).getOriginalValue(), slotEntities.get(1).getOriginalValue()));
+        } else {
+            return ExcuteAdaper.execute(taskQuery, getSteps(billRedis.queryUserBillName(session.getId()), slotEntities.get(0).getOriginalValue()));
+        }
     }
 
     /**
@@ -68,34 +73,25 @@ public class BillStepRemHandlerImpl implements BillStepRemHandler {
      */
     @Override
     public BillSteps updateBillStepInfo(String oldAccessToken, String newAccessToken) {
-        BillSteps billSteps = billStepRedis.queryUserBillStepInfo(oldAccessToken);
+        BillSteps billSteps = billRedis.queryUserBillStepInfo(oldAccessToken);
         billSteps.setOldAccessToken(oldAccessToken);billSteps.setNewAccessToken(newAccessToken);
         billSteps.setPreStep(billSteps.getBillStepLists().get(billSteps.getAfter() - 1));
         billSteps.setNowStep((billSteps.getBillStepLists().get(billSteps.getAfter())));
         billSteps.setAftStep(billSteps.getBillStepLists().get(billSteps.getAfter() + 1));
         billSteps.setAfter(billSteps.getAfter() + 1);
-        billStepRedis.saveUserBillStepInfo(billSteps);
+        billRedis.saveUserBillStepInfo(billSteps);
         return billSteps;
     }
 
     protected String getSteps(String foodName, String slotValue) {
-        System.out.println(foodName + ", " + slotValue);
-        try {
-            if (slotValue != null) {
-                return testAnswer(foodName, Integer.parseInt(slotValue));
-            }
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
-            return testAnswer(foodName, -1);
-        }
-        return testAnswer(foodName, -1);
+        return testAnswer(foodName, slotValue);
     }
 
     /**
      *
      * @return
      */
-    protected String testAnswer(String foodName, Integer soltValue) {
+    protected String testAnswer(String foodName, Object soltValue) {
         HashMap<String, List<String>> steps = new HashMap<>();
         steps.put("纸杯戚风蛋糕", Arrays.asList(new String[]{
                 "倒入玉米油，用手动打蛋器搅拌均匀，一定要使油完全融入进去。",
@@ -115,11 +111,13 @@ public class BillStepRemHandlerImpl implements BillStepRemHandler {
                 "煸炒至虾仁变色，放入荔枝。",
                 "倒入芡汁，煸炒收汁，即可关火上碟。"}));
         String a = "";
-        if (soltValue == -1) {
-            a = steps.get("荔枝烩虾仁").get(STEPS);
+        if ("下一步".equals(soltValue)) {
+            a = steps.get(foodName).get(STEPS);
             STEPS += 1;
+        } else if ("上一步".equals(soltValue)){
+            a = steps.get(foodName).get(STEPS - 1);
         } else {
-            a = steps.get("荔枝烩虾仁").get(soltValue - 1);
+            a = steps.get(foodName).get(Integer.parseInt((String) soltValue) - 1);
         }
         return a;
     }

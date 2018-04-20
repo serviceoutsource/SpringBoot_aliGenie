@@ -4,6 +4,8 @@ import com.alibaba.da.coin.ide.spi.standard.TaskQuery;
 import com.alibaba.da.coin.ide.spi.standard.TaskResult;
 import com.hyperflex.demo.model.BillSteps;
 
+import javax.servlet.http.HttpSession;
+
 /**
  * @author chuntaojun
  */
@@ -14,7 +16,7 @@ public interface BillStepRemHandler {
      * @param taskQuery
      * @return
      */
-    TaskResult execute(TaskQuery taskQuery);
+    TaskResult execute(TaskQuery taskQuery, HttpSession session);
 
     /**
      *

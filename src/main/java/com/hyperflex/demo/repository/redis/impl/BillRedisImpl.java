@@ -1,7 +1,7 @@
 package com.hyperflex.demo.repository.redis.impl;
 
 import com.hyperflex.demo.model.BillSteps;
-import com.hyperflex.demo.repository.redis.BillStepRedis;
+import com.hyperflex.demo.repository.redis.BillRedis;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
@@ -12,20 +12,32 @@ import org.springframework.stereotype.Service;
  * @author chuntaojun
  */
 @Component
-@Service("BillStepRedis")
-public class BillStepRedisImpl implements BillStepRedis {
+@Service("BillRedis")
+public class BillRedisImpl implements BillRedis {
 
     @Autowired
     private RedisTemplate redisTemplate;
 
     @Override
-    public BillSteps queryUserBillStepInfo(String oldAccessToken) {
+    public String queryUserBillName(String sessionId) {
+        ValueOperations<String, String> operations = redisTemplate.opsForValue();
+        return operations.get(sessionId);
+    }
+
+    @Override
+    public void saveUserBillName(String foodName, String sessionId) {
+        ValueOperations<String, String> operations = redisTemplate.opsForValue();
+        operations.set(sessionId, foodName);
+    }
+
+    @Override
+    public BillSteps queryUserBillStepInfo(String sessionId) {
         ValueOperations<String, BillSteps> operations = redisTemplate.opsForValue();
-        BillSteps billSteps = operations.get(oldAccessToken);
+        BillSteps billSteps = operations.get(sessionId);
         if (billSteps == null) {
-            return new BillSteps(oldAccessToken, "test");
+            return new BillSteps(sessionId, "test");
         }
-        billSteps.setOldAccessToken(oldAccessToken);
+        billSteps.setOldAccessToken(sessionId);
         return billSteps;
     }
 
@@ -41,11 +53,11 @@ public class BillStepRedisImpl implements BillStepRedis {
 
     /**
      *
-     * @param accessToken
+     * @param sessionId
      */
     @Override
-    public void deleteUserBillStepInfo(String accessToken) {
-        redisTemplate.delete(accessToken);
+    public void deleteUserBillStepInfo(String sessionId) {
+        redisTemplate.delete(sessionId);
     }
 
 }

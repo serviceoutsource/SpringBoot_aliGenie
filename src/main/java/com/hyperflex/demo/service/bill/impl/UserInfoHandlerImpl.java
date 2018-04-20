@@ -25,7 +25,7 @@ public class UserInfoHandlerImpl implements UserInfoHandler {
     @Autowired
     private LabelMapper labelMapper;
 
-    private static final String[] ANSWERS = {"", "", "", "", ""};
+    private static final String[] ANSWERS = {"好的 说下你的口味吧", "好的 我收到了 还有吗", "", "", ""};
     private static Integer LABELS = 0;
     private static LabelDO labelDO;
 

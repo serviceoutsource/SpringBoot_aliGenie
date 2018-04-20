@@ -27,10 +27,10 @@ public class OrderFunHandlerImpl implements OrderFunHandler {
      */
     @Override
     public TaskResult execute(TaskQuery taskQuery) {
-        return ExcuteAdaper.execute(taskQuery, testAnswer(taskQuery));
+        return ExcuteAdaper.execute(taskQuery, choseOrderType(taskQuery));
     }
 
-    public String testAnswer(TaskQuery taskQuery) {
+    public String choseOrderType(TaskQuery taskQuery) {
         Map<String, Object> taskMap = OrderType(taskQuery.getSlotEntities());
         if (taskMap.get("order_type").equals(OrderFunEnum.ORDER_TYPE_2)) {
             return "那我就开始报菜谱咯食材有虾仁食盐生粉橄榄油鱼露荔枝";

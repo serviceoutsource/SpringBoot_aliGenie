@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpSession;
+
 
 /**
  * @author chuntaojun
@@ -51,12 +53,12 @@ public class BillController {
      * @return
      */
     @RequestMapping(value = "/order_bill", method = {RequestMethod.POST, RequestMethod.GET})
-    public @ResponseBody ResultModel<TaskResult> OrderBillResponse(@RequestBody String taskQuery) {
+    public @ResponseBody ResultModel<TaskResult> OrderBillResponse(@RequestBody String taskQuery, HttpSession session) {
         ResultModel<TaskResult> resultModel = new ResultModel<>();
-        logger.info("TaskQuery:{}", taskQuery);
+        logger.info("TaskQuery:{}, Session ID:{}", taskQuery, session.getId());
         try {
             resultModel.setReturnCode("0");
-            resultModel.setReturnValue(menuHandler.execute(MetaFormat.parseToQuery(taskQuery)));
+            resultModel.setReturnValue(menuHandler.execute(MetaFormat.parseToQuery(taskQuery), session));
         }catch (Exception e){
             System.out.println(e.getMessage());
             resultModel.setReturnCode("-1");
@@ -73,9 +75,9 @@ public class BillController {
      * @return
      */
     @RequestMapping(value = "/recommend_bill", method = {RequestMethod.POST, RequestMethod.GET})
-    public @ResponseBody ResultModel<TaskResult> RecommendBillResponse(@RequestBody String taskQuery) {
+    public @ResponseBody ResultModel<TaskResult> RecommendBillResponse(@RequestBody String taskQuery, HttpSession session) {
         ResultModel<TaskResult> resultModel = new ResultModel<>();
-        logger.info("TaskQuery:{}", taskQuery);
+        logger.info("TaskQuery:{}, Session ID:{}", taskQuery, session.getId());
         try {
             resultModel.setReturnCode("0");
             resultModel.setReturnValue(foodRecommendHandler.execute(MetaFormat.parseToQuery(taskQuery)));
@@ -95,12 +97,12 @@ public class BillController {
      * @return
      */
     @RequestMapping(value = "/bill_step", method = {RequestMethod.POST, RequestMethod.GET})
-    public @ResponseBody ResultModel<TaskResult> BillStepResponse(@RequestBody String taskQuery) {
+    public @ResponseBody ResultModel<TaskResult> BillStepResponse(@RequestBody String taskQuery, HttpSession session) {
         ResultModel<TaskResult> resultModel = new ResultModel<>();
-        logger.info("TaskQuery:{}", taskQuery);
+        logger.info("TaskQuery:{}, Session ID:{}", taskQuery, session.getId());
         try {
             resultModel.setReturnCode("0");
-            resultModel.setReturnValue(billStepRemHandler.execute(MetaFormat.parseToQuery(taskQuery)));
+            resultModel.setReturnValue(billStepRemHandler.execute(MetaFormat.parseToQuery(taskQuery), session));
         } catch (Exception e) {
             System.out.println(e.getMessage());
             resultModel.setReturnCode("-1");
@@ -117,9 +119,9 @@ public class BillController {
      * @return
      */
     @RequestMapping(value = "/order_fun", method = {RequestMethod.POST, RequestMethod.GET})
-    public @ResponseBody ResultModel<TaskResult> OrderFunResponse(@RequestBody String taskQuery) {
+    public @ResponseBody ResultModel<TaskResult> OrderFunResponse(@RequestBody String taskQuery, HttpSession session) {
         ResultModel<TaskResult> resultModel = new ResultModel<>();
-        logger.info("TaskQuery:{}", taskQuery);
+        logger.info("TaskQuery:{}, Session ID:{}", taskQuery, session.getId());
         try {
             resultModel.setReturnCode("0");
             resultModel.setReturnValue(orderFunHandler.execute(MetaFormat.parseToQuery(taskQuery)));
@@ -134,9 +136,9 @@ public class BillController {
     }
 
     @RequestMapping(value = "/cook_ask", method = {RequestMethod.POST, RequestMethod.GET})
-    public @ResponseBody ResultModel<TaskResult> CookAskResponse(@RequestBody String taskQuery) {
+    public @ResponseBody ResultModel<TaskResult> CookAskResponse(@RequestBody String taskQuery, HttpSession session) {
         ResultModel<TaskResult> resultModel = new ResultModel<>();
-        logger.info("TaskQuery:{}", taskQuery);
+        logger.info("TaskQuery:{}, Session ID:{}", taskQuery, session.getId());
         try {
             resultModel.setReturnCode("0");
             resultModel.setReturnValue(foodAdviceHandler.execute(MetaFormat.parseToQuery(taskQuery)));
@@ -151,9 +153,9 @@ public class BillController {
     }
 
     @RequestMapping(value = "/food_metrial_recommend", method = {RequestMethod.POST, RequestMethod.GET})
-    public @ResponseBody ResultModel<TaskResult> FoodMaterialResponse(@RequestBody String taskQuery) {
+    public @ResponseBody ResultModel<TaskResult> FoodMaterialResponse(@RequestBody String taskQuery, HttpSession session) {
         ResultModel<TaskResult> resultModel = new ResultModel<>();
-        logger.info("TaskQuery:{}", taskQuery);
+        logger.info("TaskQuery:{}, Session ID:{}", taskQuery, session.getId());
         try {
             resultModel.setReturnCode("0");
             resultModel.setReturnValue(ExcuteAdaper.execute(MetaFormat.parseToQuery(taskQuery), "小依推荐您尝试下 小鸡炖蘑菇 白切鸡 或者 黄焖鸡"));
